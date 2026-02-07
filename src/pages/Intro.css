@@ -1,0 +1,52 @@
+.intro-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(180deg, #ffe6eb 0%, #ffc0cb 100%);
+    overflow: hidden;
+}
+
+.skip-option {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.7);
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.ball {
+    position: absolute;
+    border-radius: 50%;
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.key-icon {
+    font-size: 24px;
+}
+
+.hint-text {
+    position: absolute;
+    bottom: 10%;
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    font-size: 1.2rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* 공 내부 이미지가 공 크기에 꽉 차면서 비율 유지하게 */
+.key-ball-img {
+    width: 85%; /* 70%에서 좀 더 키움 */
+    height: 85%;
+    object-fit: contain;
+    pointer-events: none;
+    filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.8)); /* 금색 빛나는 효과 추가 */
+}

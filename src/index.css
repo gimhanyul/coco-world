@@ -1,0 +1,46 @@
+:root {
+    --main-pink: #ffc0cb;
+    --deep-pink: #ff69b4;
+    --text-color: #555;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Gowun Dodum', sans-serif;
+    background-color: var(--main-pink);
+    overflow: hidden;
+    user-select: none;
+}
+
+button,
+input,
+textarea {
+    font-family: inherit;
+}
+
+@keyframes wiggle {
+    0% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(-5deg);
+    }
+    50% {
+        transform: rotate(0deg);
+    }
+    75% {
+        transform: rotate(5deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+.hamster-wiggle:hover {
+    animation: wiggle 0.5s infinite;
+    cursor: pointer;
+}
