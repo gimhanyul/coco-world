@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from 'framer-motion';
@@ -10,30 +10,58 @@ import Footer from '../components/Footer';
 
 export default function Gallery() {
     const navigate = useNavigate();
-    const [isSidebarOpen, setSidebarOpen] = useState(true);
+    const [isSidebarOpen, setSidebarOpen] = useState(() => window.innerWidth > 768);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
     const [isFlipped, setIsFlipped] = useState(false);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     const dDay = useMemo(() => {
         const today = new Date();
-        const birthDate = new Date('2023-04-07'); // 코코 생일
+        const birthDate = new Date('2023-04-07');
         const diffTime = Math.abs(today - birthDate);
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         return diffDays;
     }, []);
 
+    const sidebarVariants = {
+        open: {
+            width: isMobile ? '100vw' : 320,
+            opacity: 1,
+            x: 0,
+        },
+        closed: {
+            width: 0,
+            opacity: 0,
+            x: isMobile ? -50 : 0,
+        },
+    };
+
     return (
         <div className='gallery-container'>
-            <AnimatePresence>
+            <AnimatePresence mode='wait'>
                 {isSidebarOpen && (
                     <motion.aside
                         className='sidebar'
-                        initial={{ width: 0, opacity: 0 }}
-                        animate={{ width: 320, opacity: 1 }}
-                        exit={{ width: 0, opacity: 0 }}
-                        transition={{ duration: 0.5, ease: 'easeInOut' }}
+                        initial='closed'
+                        animate='open'
+                        exit='closed'
+                        variants={sidebarVariants}
+                        transition={{ duration: 0.4, ease: 'easeInOut' }}
                     >
+                        {isMobile && (
+                            <button className='mobile-close-btn' onClick={() => setSidebarOpen(false)}>
+                                ✖
+                            </button>
+                        )}
+
                         <div className='profile-card'>
-                            {/* 프로필 이미지 뒤집기 효과 */}
                             <div
                                 className={`profile-img-container ${isFlipped ? 'flipped' : ''}`}
                                 onClick={() => setIsFlipped(!isFlipped)}
@@ -57,9 +85,16 @@ export default function Gallery() {
                                     <li>✨ 골든햄스터/도브 장모종</li>
                                 </ul>
                             </div>
-                            <button className='back-btn' onClick={() => navigate('/home')}>
-                                🏠 홈으로 가기
-                            </button>
+                            <div className='sidebar-buttons'>
+                                <button className='back-btn' onClick={() => navigate('/home')}>
+                                    🏠 홈으로 가기
+                                </button>
+                                {isMobile && (
+                                    <button className='close-gallery-btn' onClick={() => setSidebarOpen(false)}>
+                                        📸 갤러리 보러가기
+                                    </button>
+                                )}
+                            </div>
                         </div>
                     </motion.aside>
                 )}
@@ -72,7 +107,7 @@ export default function Gallery() {
                         onClick={() => setSidebarOpen(!isSidebarOpen)}
                         title={isSidebarOpen ? '프로필 접기' : '프로필 펼치기'}
                     >
-                        {isSidebarOpen ? '◀' : '▶'}
+                        {!isSidebarOpen || !isMobile ? (isSidebarOpen ? '◀' : '▶') : '▶'}
                     </button>
                     <h1>📸 코코의 추억 갤러리</h1>
                 </header>

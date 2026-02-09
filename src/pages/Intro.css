@@ -42,11 +42,10 @@
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
-/* 공 내부 이미지가 공 크기에 꽉 차면서 비율 유지하게 */
 .key-ball-img {
-    width: 85%; /* 70%에서 좀 더 키움 */
+    width: 85%;
     height: 85%;
     object-fit: contain;
     pointer-events: none;
-    filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.8)); /* 금색 빛나는 효과 추가 */
+    filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.8));
 }

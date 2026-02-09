@@ -17,7 +17,6 @@
     left: 30px;
     z-index: 10;
 }
-
 .lobby-nav button {
     background: white;
     border: none;
@@ -29,12 +28,10 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     transition: 0.2s;
 }
-
 .lobby-nav button:hover {
     transform: scale(1.05);
     background: #fff0f5;
 }
-
 .mascot-area {
     display: flex;
     flex-direction: column;
@@ -43,13 +40,11 @@
     position: relative;
     z-index: 5;
 }
-
 .mascot-img {
     width: 150px;
     height: auto;
     filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.2));
 }
-
 .speech-bubble-game {
     background: white;
     padding: 15px 25px;
@@ -63,7 +58,6 @@
     min-width: 250px;
     animation: popIn 0.3s ease-out;
 }
-
 .speech-bubble-game::after {
     content: '';
     position: absolute;
@@ -74,7 +68,6 @@
     border-top-color: white;
     border-bottom: 0;
 }
-
 @keyframes popIn {
     from {
         opacity: 0;
@@ -85,14 +78,12 @@
         transform: scale(1) translateY(0);
     }
 }
-
 .game-card-list {
     display: flex;
     gap: 40px;
     z-index: 5;
     padding-bottom: 80px;
 }
-
 .game-card {
     width: 220px;
     height: 300px;
@@ -107,18 +98,15 @@
     transition: 0.3s;
     border: 3px solid transparent;
 }
-
 .game-card:hover {
     border-color: #ffd700;
     background: white;
 }
-
 .game-card.locked {
     opacity: 0.7;
     filter: grayscale(0.5);
     cursor: not-allowed;
 }
-
 .card-image {
     width: 100%;
     height: 180px;
@@ -131,20 +119,17 @@
     justify-content: center;
     align-items: center;
 }
-
 .card-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
-
 .lock-overlay {
     position: absolute;
     font-size: 3rem;
     z-index: 2;
     text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
-
 .card-title {
     font-size: 1.2rem;
     font-weight: bold;
@@ -152,7 +137,6 @@
     margin-top: auto;
     margin-bottom: 10px;
 }
-
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -166,7 +150,6 @@
     align-items: center;
     z-index: 9999;
 }
-
 .custom-modal {
     background: white;
     padding: 30px 40px;
@@ -176,26 +159,22 @@
     min-width: 320px;
     border: 4px solid #ffc0cb;
 }
-
 .custom-modal h3 {
     color: var(--deep-pink, #ff69b4);
     font-size: 1.8rem;
     margin-bottom: 15px;
 }
-
 .custom-modal p {
     font-size: 1.1rem;
     color: #555;
     margin-bottom: 25px;
     line-height: 1.6;
 }
-
 .modal-buttons {
     display: flex;
     justify-content: center;
     gap: 15px;
 }
-
 .modal-buttons button {
     padding: 10px 25px;
     border: none;
@@ -206,7 +185,6 @@
     font-weight: bold;
     transition: 0.2s;
 }
-
 .confirm-btn {
     background: var(--deep-pink, #ff69b4);
     color: white;
@@ -215,7 +193,6 @@
     background: #ff1493;
     transform: scale(1.05);
 }
-
 .cancel-btn {
     background: #eee;
     color: #555;
@@ -223,4 +200,59 @@
 .cancel-btn:hover {
     background: #ddd;
     transform: scale(1.05);
+}
+@media (max-width: 768px) {
+    .game-lobby-container {
+        height: auto;
+        min-height: 100vh;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding-top: 80px;
+        justify-content: flex-start;
+        background-attachment: fixed;
+    }
+    .game-lobby-container {
+        background-attachment: fixed;
+    }
+    .lobby-nav {
+        top: 20px;
+        left: 20px;
+    }
+    .lobby-nav button {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+    .mascot-area {
+        margin-top: 20px;
+        transform: scale(0.9);
+    }
+    .speech-bubble-game {
+        min-width: auto;
+        width: 80vw;
+        font-size: 0.9rem;
+    }
+    .game-card-list {
+        flex-direction: column;
+        gap: 30px;
+        padding-bottom: 120px;
+    }
+    .game-card {
+        width: 260px;
+        height: 320px;
+    }
+    .custom-modal {
+        min-width: unset;
+        width: 90%;
+        padding: 25px 20px;
+    }
+    .custom-modal h3 {
+        font-size: 1.5rem;
+    }
+    .custom-modal p {
+        font-size: 1rem;
+    }
+    .modal-buttons button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
 }

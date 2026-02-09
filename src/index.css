@@ -12,7 +12,6 @@ body {
     margin: 0;
     font-family: 'Gowun Dodum', sans-serif;
     background-color: var(--main-pink);
-    overflow: hidden;
     user-select: none;
 }
 

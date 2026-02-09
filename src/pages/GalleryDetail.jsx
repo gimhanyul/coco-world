@@ -61,13 +61,11 @@ export default function GalleryDetail() {
 
     return (
         <div className='detail-container'>
-            {/* 상단 네비게이션 */}
             <nav className='detail-nav'>
                 <button onClick={() => navigate('/gallery')}>🔙 갤러리로 돌아가기</button>
             </nav>
 
             <div className='detail-content'>
-                {/* [왼쪽] 사진 + 정보 영역 */}
                 <section className='left-section'>
                     <div className='image-frame'>
                         <img src={photo.src} alt={photo.title} />
@@ -79,8 +77,6 @@ export default function GalleryDetail() {
                         <p className='description'>{photo.desc}</p>
                     </div>
                 </section>
-
-                {/* [오른쪽] 댓글 커뮤니티 영역 */}
                 <section className='right-section'>
                     <div className='comment-header'>
                         <h3>💬 햄스터 톡 ({comments.length})</h3>

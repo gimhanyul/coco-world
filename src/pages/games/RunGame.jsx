@@ -6,6 +6,7 @@ import './RunGame.css';
 
 export default function RunGame() {
     const navigate = useNavigate();
+    const [isMobile, setIsMobile] = useState(false);
 
     const [isJumping, setIsJumping] = useState(false);
     const [isGameOver, setIsGameOver] = useState(false);
@@ -16,14 +17,26 @@ export default function RunGame() {
     const obstacleRef = useRef(null);
     const scoreInterval = useRef(null);
 
-    // ★ [수정] handleGameOver를 가장 먼저 정의합니다! (위치 이동됨)
+    useEffect(() => {
+        const checkMobile = () => {
+            const userAgent = navigator.userAgent;
+            const mobileRegex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+
+            if (mobileRegex.test(userAgent)) {
+                setIsMobile(true);
+            } else {
+                setIsMobile(false);
+            }
+        };
+        checkMobile();
+    }, []);
+
     const handleGameOver = () => {
         setIsGameOver(true);
         setIsGameStarted(false);
         if (scoreInterval.current) clearInterval(scoreInterval.current);
     };
 
-    // 1. 점프 기능
     const jump = () => {
         if (!isJumping && !isGameOver && isGameStarted) {
             setIsJumping(true);
@@ -33,7 +46,6 @@ export default function RunGame() {
         }
     };
 
-    // 2. 게임 시작
     const startGame = () => {
         setIsGameStarted(true);
         setIsGameOver(false);
@@ -46,7 +58,6 @@ export default function RunGame() {
         }, 100);
     };
 
-    // 3. 충돌 감지 (이제 handleGameOver를 위에서 만들었기 때문에 에러가 안 납니다)
     useEffect(() => {
         let collisionCheck;
 
@@ -64,7 +75,6 @@ export default function RunGame() {
                         cocoRect.left < obstacleRect.right - 20 &&
                         cocoRect.bottom > obstacleRect.top + 20
                     ) {
-                        // 여기서 위에서 만든 함수를 호출
                         handleGameOver();
                     }
                 }
@@ -74,7 +84,6 @@ export default function RunGame() {
         return () => clearInterval(collisionCheck);
     }, [isGameStarted, isGameOver]);
 
-    // 컴포넌트가 사라질 때(나가기) 타이머 정리
     useEffect(() => {
         return () => {
             if (scoreInterval.current) clearInterval(scoreInterval.current);
@@ -83,7 +92,12 @@ export default function RunGame() {
 
     return (
         <div className='game-screen' onClick={jump}>
-            {/* ... (아래 JSX 코드는 그대로 유지) ... */}
+            {isMobile && (
+                <div className='rotate-warning'>
+                    <div className='phone-icon'>📱🔄</div>
+                </div>
+            )}
+
             <div className='score-board'>점수: {score}</div>
 
             <button
