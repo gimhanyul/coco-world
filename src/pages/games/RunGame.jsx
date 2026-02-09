@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import cocoRunImg from '../../assets/coco_run.gif';
 import obstacleImg from '../../assets/obstacle.webp';
@@ -21,7 +21,6 @@ export default function RunGame() {
         const checkMobile = () => {
             const userAgent = navigator.userAgent;
             const mobileRegex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
-
             if (mobileRegex.test(userAgent)) {
                 setIsMobile(true);
             } else {
@@ -37,14 +36,26 @@ export default function RunGame() {
         if (scoreInterval.current) clearInterval(scoreInterval.current);
     };
 
-    const jump = () => {
+    const jump = useCallback(() => {
         if (!isJumping && !isGameOver && isGameStarted) {
             setIsJumping(true);
             setTimeout(() => {
                 setIsJumping(false);
             }, 500);
         }
-    };
+    }, [isJumping, isGameOver, isGameStarted]);
+
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                jump();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [jump]);
 
     const startGame = () => {
         setIsGameStarted(true);
@@ -95,6 +106,10 @@ export default function RunGame() {
             {isMobile && (
                 <div className='rotate-warning'>
                     <div className='phone-icon'>📱🔄</div>
+                    <p>
+                        화면을 가로로 돌려주세요!
+                        <br />더 넓은 화면에서 즐길 수 있어요.
+                    </p>
                 </div>
             )}
 
