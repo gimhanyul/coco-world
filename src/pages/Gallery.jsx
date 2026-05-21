@@ -10,24 +10,36 @@ import Footer from '../components/Footer';
 
 export default function Gallery() {
     const navigate = useNavigate();
-    const [isSidebarOpen, setSidebarOpen] = useState(() => window.innerWidth > 768);
-    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+    const getIsMobile = () => window.innerWidth <= 768;
+
+    const [isMobile, setIsMobile] = useState(getIsMobile);
+    const [isSidebarOpen, setSidebarOpen] = useState(!getIsMobile());
     const [isFlipped, setIsFlipped] = useState(false);
 
     useEffect(() => {
         const handleResize = () => {
-            setIsMobile(window.innerWidth <= 768);
+            const mobile = window.innerWidth <= 768;
+
+            setIsMobile(mobile);
+
+            if (!mobile) {
+                setSidebarOpen(true);
+            }
         };
+
         window.addEventListener('resize', handleResize);
+
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    const dDay = useMemo(() => {
-        const today = new Date();
+    const togetherDays = useMemo(() => {
         const birthDate = new Date('2023-04-07');
-        const diffTime = Math.abs(today - birthDate);
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        return diffDays;
+        const goodbyeDate = new Date('2026-02-26');
+
+        const diffTime = goodbyeDate - birthDate;
+
+        return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     }, []);
 
     const sidebarVariants = {
@@ -62,7 +74,8 @@ export default function Gallery() {
                         )}
 
                         <div className='profile-card'>
-                            <div
+                            <button
+                                type='button'
                                 className={`profile-img-container ${isFlipped ? 'flipped' : ''}`}
                                 onClick={() => setIsFlipped(!isFlipped)}
                             >
@@ -70,25 +83,34 @@ export default function Gallery() {
                                     <div className='front'>
                                         <img src={profileImg} alt='코코 프로필' />
                                     </div>
+
                                     <div className='back'>
-                                        <div className='back-content'>까꿍! 🐹</div>
+                                        <div className='back-content'>보고 싶어 🐹</div>
                                     </div>
                                 </div>
-                            </div>
+                            </button>
 
                             <div className='profile-info'>
                                 <h2>🐹 코코</h2>
+
                                 <p className='desc'>"안뇽하세요, 코코입니다."</p>
+
                                 <ul className='stats'>
-                                    <li>🎂 23.04.07</li>
-                                    <li className='d-day'>함께한 지 D+{dDay}일</li>
-                                    <li>✨ 골든햄스터/도브 장모종</li>
+                                    <li>🎂 2023.04.07</li>
+
+                                    <li className='d-day'>함께한 시간 {togetherDays}일</li>
+
+                                    <li>🌙 2023.04.07 - 2026.02.26</li>
+
+                                    <li>✨ 골든햄스터 / 도브 장모종</li>
                                 </ul>
                             </div>
+
                             <div className='sidebar-buttons'>
                                 <button className='back-btn' onClick={() => navigate('/home')}>
                                     🏠 홈으로 가기
                                 </button>
+
                                 {isMobile && (
                                     <button className='close-gallery-btn' onClick={() => setSidebarOpen(false)}>
                                         📸 갤러리 보러가기
@@ -109,6 +131,7 @@ export default function Gallery() {
                     >
                         {!isSidebarOpen || !isMobile ? (isSidebarOpen ? '◀' : '▶') : '▶'}
                     </button>
+
                     <h1>📸 코코의 추억 갤러리</h1>
                 </header>
 
@@ -117,11 +140,12 @@ export default function Gallery() {
                         <motion.div
                             key={img.id}
                             className='photo-item'
-                            whileHover={{ scale: 1.05 }}
+                            whileHover={!isMobile ? { scale: 1.05 } : {}}
                             onClick={() => navigate(`/gallery/${img.id}`)}
                         >
                             <img src={frameImg} alt='frame' className='frame-overlay' />
-                            <img src={img.src} alt={img.title} className='photo-img' />
+
+                            <img src={img.src} alt={img.title} className='photo-img' loading='lazy' />
                         </motion.div>
                     ))}
                 </div>

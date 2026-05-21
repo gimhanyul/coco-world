@@ -284,3 +284,11 @@
         padding: 20px;
     }
 }
+
+.profile-img-container {
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+}
